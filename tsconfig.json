@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "types": [
+      "node",
+      "jest"
+    ]
+  },
+  "ts-node": {
+    "swc": true
+  }
+}
