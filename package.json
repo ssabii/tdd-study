@@ -5,6 +5,11 @@
   "repository": "git@github.com:ssabii/tdd-study.git",
   "author": "ssabii <fhy1930@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "test:": "jest",
+    "test:watch": "jest --watch",
+    "test:watchAll": "jest --watchAll"
+  },
   "dependencies": {
     "ts-node": "^10.8.1"
   },
