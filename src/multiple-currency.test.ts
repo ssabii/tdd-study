@@ -9,4 +9,9 @@ describe("다중 화폐 예제", () => {
     product = five.times(3);
     expect(product.amount).toBe(15);
   });
+
+  test("equality", () => {
+    expect(new Dollar(5).equals(new Dollar(5))).toBe(true);
+    expect(new Dollar(5).equals(new Dollar(6))).toBe(false);
+  });
 });
