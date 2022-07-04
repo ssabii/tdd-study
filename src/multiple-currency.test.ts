@@ -20,4 +20,9 @@ describe("다중 화폐 예제", () => {
     expect(five.times(2).equals(Money.franc(10))).toBe(true);
     expect(five.times(3).equals(Money.franc(15))).toBe(true);
   });
+
+  test("currency", () => {
+    expect(Money.dollar(1).currency()).toBe("USD");
+    expect(Money.franc(1).currency()).toBe("CHF");
+  });
 });
