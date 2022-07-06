@@ -1,4 +1,4 @@
-export abstract class Money {
+export class Money {
   protected amount: number;
   protected _currency: string;
 
@@ -15,7 +15,9 @@ export abstract class Money {
     return new Franc(amount, "CHF");
   }
 
-  abstract times(multiplier: number): Money;
+  public times(multiplier: number): Money {
+    return new Money(this.amount * multiplier, this._currency);
+  }
 
   public currency() {
     return this._currency;
@@ -23,9 +25,12 @@ export abstract class Money {
 
   public equals(object: Object) {
     const money = object as Money;
-    return (
-      this.amount === money.amount && this.constructor === money.constructor
-    );
+    return this.amount === money.amount && this.currency() === money.currency();
+  }
+
+  // 이건 굳이 작성안해도 되지 않을까?
+  public toString(): string {
+    return this.amount + "" + this._currency;
   }
 }
 
@@ -33,18 +38,10 @@ export class Dollar extends Money {
   constructor(amount: number, currency: string) {
     super(amount, currency);
   }
-
-  public times(multiplier: number): Money {
-    return Money.dollar(this.amount * multiplier);
-  }
 }
 
 export class Franc extends Money {
   constructor(amount: number, currency: string) {
     super(amount, currency);
-  }
-
-  public times(multiplier: number): Money {
-    return Money.franc(this.amount * multiplier);
   }
 }

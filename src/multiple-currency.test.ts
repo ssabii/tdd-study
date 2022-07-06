@@ -25,4 +25,8 @@ describe("다중 화폐 예제", () => {
     expect(Money.dollar(1).currency()).toBe("USD");
     expect(Money.franc(1).currency()).toBe("CHF");
   });
+
+  test("different class equality", () => {
+    expect(new Money(10, "CHF").equals(new Franc(10, "CHF"))).toBe(true);
+  });
 });
