@@ -8,11 +8,11 @@ export class Money {
   }
 
   static dollar(amount: number): Money {
-    return new Dollar(amount, "USD");
+    return new Money(amount, "USD");
   }
 
   static franc(amount: number): Money {
-    return new Franc(amount, "CHF");
+    return new Money(amount, "CHF");
   }
 
   public times(multiplier: number): Money {
@@ -31,17 +31,5 @@ export class Money {
   // 이건 굳이 작성안해도 되지 않을까?
   public toString(): string {
     return this.amount + "" + this._currency;
-  }
-}
-
-export class Dollar extends Money {
-  constructor(amount: number, currency: string) {
-    super(amount, currency);
-  }
-}
-
-export class Franc extends Money {
-  constructor(amount: number, currency: string) {
-    super(amount, currency);
   }
 }
