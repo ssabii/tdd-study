@@ -33,7 +33,7 @@ export class Money implements Expression {
   }
 
   reduce(to: string): Money {
-    return null;
+    return this;
   }
 
   public equals(object: Object) {
