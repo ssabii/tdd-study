@@ -1,10 +1,11 @@
-import { Bank, Money, Sum } from "./multiple-currency";
+import { Bank, Expression, Money, Sum } from "./multiple-currency";
 
 describe("다중 화폐 예제", () => {
   test("multiplication", () => {
     const five = Money.dollar(5);
-    expect(five.times(2).equals(Money.dollar(10))).toBe(true);
-    expect(five.times(3).equals(Money.dollar(15))).toBe(true);
+    // NOTE: Expression 클래스로 변경 후, equals가 없다는 오류가 나서 순서를 변경함
+    expect(Money.dollar(10).equals(five.times(2))).toBe(true);
+    expect(Money.dollar(15).equals(five.times(3))).toBe(true);
   });
 
   test("equality", () => {
@@ -30,8 +31,9 @@ describe("다중 화폐 예제", () => {
     const five = Money.dollar(5);
     const result = five.plus(five);
     const sum = result as Sum;
-    expect(sum.augend.equals(five)).toBe(true);
-    expect(sum.addend.equals(five)).toBe(true);
+    // NOTE: Expression 클래스로 변경 후, augend는 equals가 없다는 오류가 나서 순서를 변경함
+    expect(five.equals(sum.augend)).toBe(true);
+    expect(five.equals(sum.addend)).toBe(true);
   });
 
   test("reduce sum", () => {
@@ -52,5 +54,14 @@ describe("다중 화폐 예제", () => {
     bank.addRate("CHF", "USD", 2);
     const result: Money = bank.reduce(Money.franc(2), "USD");
     expect(result.equals(Money.dollar(1))).toBe(true);
+  });
+
+  test("mixed addition", () => {
+    const fiveBucks = Money.dollar(5) as Expression;
+    const tenFrancs = Money.franc(10) as Expression;
+    const bank = new Bank();
+    bank.addRate("CHF", "USD", 2);
+    const result = bank.reduce(fiveBucks.plus(tenFrancs), "USD");
+    expect(result.equals(Money.dollar(10))).toBe(true);
   });
 });
