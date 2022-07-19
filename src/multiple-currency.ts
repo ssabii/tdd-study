@@ -32,8 +32,9 @@ export class Money implements Expression {
     return new Sum(this, addend);
   }
 
-  reduce(to: string): Money {
-    return this;
+  public reduce(bank: Bank, to: string): Money {
+    const rate = bank.rate(this._currency, to);
+    return new Money(this._amount / rate, to);
   }
 
   public equals(object: Object) {
@@ -50,12 +51,23 @@ export class Money implements Expression {
 }
 
 export interface Expression {
-  reduce(to: string): Money;
+  reduce(bank: Bank, to: string): Money;
 }
 
 export class Bank {
+  private rates = new Map<string, number>();
+
   public reduce(source: Expression, to: string): Money {
-    return source.reduce(to);
+    return source.reduce(this, to);
+  }
+
+  public rate(from: string, to: string): number {
+    if (from === to) return 1;
+    return this.rates.get(from + to);
+  }
+
+  public addRate(from: string, to: string, rate: number) {
+    this.rates.set(from + to, rate);
   }
 }
 
@@ -68,8 +80,27 @@ export class Sum implements Expression {
     this.addend = addend;
   }
 
-  public reduce(to: string) {
+  public reduce(bank: Bank, to: string) {
     const amount = this.augend.amount + this.addend.amount;
     return new Money(amount, to);
+  }
+}
+
+class Pair {
+  private from: string;
+  private to: string;
+
+  constructor(from: string, to: string) {
+    this.from = from;
+    this.to = to;
+  }
+
+  public equals(object: Object): boolean {
+    const pair = object as Pair;
+    return this.from === pair.from && this.to === pair.to;
+  }
+
+  public hashCode(): number {
+    return 0;
   }
 }
